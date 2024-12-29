@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  #DATABASES
+  #postgres
+  postgres:
+    image: postgres
+    container_name: postgresSQL
+    environment:
+      POSTGRES_USER: admin12m12
+      POSTGRES_PASSWORD: XRDZMQ49TMv6guG
+      POSTGRES_DB: sale_db
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - web-api
+    restart: unless-stopped
+
+  #redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    volumes:
+      - ./redis/redis.conf:/etc/redis/redis.conf
+      - redis:/etc/redis/redis.conf
+      - redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - web-api
+    restart: unless-stopped
+
+
+  #GUI
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ma.prog.salsa@gmail.com
+      PGADMIN_DEFAULT_PASSOWED: MAKER1212maker
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "8090:80"
+    networks:
+      - web-api
+    restart: unless-stopped
+    depends_on: 
+      - postgres
+
+
+
+volumes:
+  # db
+  postgres:
+  redis:
+
+  #gui
+  pgadmin:
+
+  #logs
+  log:
+
+
+#network
+networks:
+  web-api:
+    driver: 
+      bridge
