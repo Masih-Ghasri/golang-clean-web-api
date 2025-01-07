@@ -1,18 +1,19 @@
 package main
 
 import (
-  "api/config"
-  "api/routers"
   "fmt"
+  "api/routers"
+  "../config"  
   "github.com/gin-gonic/gin"
+  
 )
 
 func InitServer() {
-  cfg := config.GetConfig()
+  cfg := config.GetConfig()  
   r := gin.Default()
   r.Use(gin.Logger(), gin.Recovery())
 
-  v1 := r.Group("api/v1/")
+  v1 := r.Group("/api/v1/")
   {
     health := v1.Group("/health")
     routers.Health(health)

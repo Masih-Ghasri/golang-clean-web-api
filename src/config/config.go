@@ -23,7 +23,7 @@ type Config struct {
 type ServerConfig struct {
 	InternalPort    string
 	ExternalPort    string
-	RunMode 				string
+	RunMode string
 }
 
 type LoggerConfig struct {
@@ -100,7 +100,6 @@ func GetConfig() *Config {
 		cfg.Server.ExternalPort = cfg.Server.InternalPort
 		log.Printf("Set external port from environment -> %s", cfg.Server.ExternalPort)
 	}
-
 	if err != nil {
 		log.Fatalf("Error in parse config %v", err)
 	}
@@ -117,6 +116,7 @@ func ParseConfig(v *viper.Viper) (*Config, error) {
 	}
 	return &cfg, nil
 }
+
 func LoadConfig(filename string, fileType string) (*viper.Viper, error) {
 	v := viper.New()
 	v.SetConfigType(fileType)
@@ -137,10 +137,10 @@ func LoadConfig(filename string, fileType string) (*viper.Viper, error) {
 
 func getConfigPath(env string) string {
 	if env == "docker" {
-		return "./config-docker.yml"
+		return "/app/config/config-docker"
 	} else if env == "production" {
-		return "/src/config/config-production.yml"
+		return "/config/config-production"
 	} else {
-		return "./config-development.yml"
+		return "../config/config-development"
 	}
 }
