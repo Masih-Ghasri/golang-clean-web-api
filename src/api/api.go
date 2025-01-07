@@ -3,7 +3,7 @@ package main
 import (
   "fmt"
   "api/routers"
-  "../config"  
+  "api/config"
   "github.com/gin-gonic/gin"
   
 )
@@ -18,7 +18,7 @@ func InitServer() {
     health := v1.Group("/health")
     routers.Health(health)
   }
-  r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+  r.Run(fmt.Sprintf(":%s", cfg.Server.ExternalPort))
 }
 
 func main(){
